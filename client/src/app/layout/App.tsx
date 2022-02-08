@@ -20,8 +20,10 @@ function App() {
   return (
     <Fragment>
       <NavBar />
-      <PostDashboard posts={posts} />
-      <Container style={{ marginTop: "7em" }}></Container>
+
+      <Container style={{ marginTop: "7em" }}>
+        <PostDashboard posts={posts} />
+      </Container>
     </Fragment>
   );
 }
