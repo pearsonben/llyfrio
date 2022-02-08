@@ -35,7 +35,17 @@ namespace API
         {
 
             services.AddControllers();
-            
+
+            // this is necessary to allow the API to be consumed by another domain. 
+            // the react app frontent uses the domain localhost:3000 so thats what we'll allow
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    // allow any method and header makes sure all GET,POST,PUT,DELETE methods are accessible to the frontend
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                });
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -64,6 +74,8 @@ namespace API
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
