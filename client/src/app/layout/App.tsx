@@ -3,12 +3,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "../models/post";
 import NavBar from "./NavBar";
-import { Container, List } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import PostDashboard from "../../features/posts/dashboard/PostDashboard";
 
 function App() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     axios.get<Post[]>("http://localhost:5000/api/posts").then((response) => {
@@ -26,9 +27,18 @@ function App() {
     setSelectedPost(undefined);
   }
 
+  function handleFormOpen(id?: string) {
+    id ? handleSelectPost(id) : handleCancelSelectPost();
+    setEditMode(true);
+  }
+
+  function handleFormClose() {
+    setEditMode(false);
+  }
+
   return (
     <Fragment>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
 
       <Container style={{ marginTop: "7em" }}>
         <PostDashboard
@@ -36,6 +46,9 @@ function App() {
           selectedPost={selectedPost}
           selectPost={handleSelectPost}
           cancelSelectPost={handleCancelSelectPost}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
         />
       </Container>
     </Fragment>

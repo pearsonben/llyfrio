@@ -6,9 +6,14 @@ import { Post } from "../../../app/models/post";
 interface Props {
   post: Post;
   cancelSelectPost: () => void;
+  openForm: (id: string) => void;
 }
 
-export default function PostDetails({ post, cancelSelectPost }: Props) {
+export default function PostDetails({
+  post,
+  cancelSelectPost,
+  openForm,
+}: Props) {
   return (
     <Card fluid>
       <Card.Content>
@@ -19,7 +24,12 @@ export default function PostDetails({ post, cancelSelectPost }: Props) {
         <Card.Description>{post.rating}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button basic color="blue" content="Edit" />
+        <Button
+          onClick={() => openForm(post.id)}
+          basic
+          color="blue"
+          content="Edit"
+        />
         <Button onClick={cancelSelectPost} color="grey" content="Cancel" />
       </Card.Content>
     </Card>
