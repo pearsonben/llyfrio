@@ -10,6 +10,9 @@ interface Props {
   selectedPost: Post | undefined;
   selectPost: (id: string) => void;
   cancelSelectPost: () => void;
+  editMode: boolean;
+  openForm: (id: string) => void;
+  closeForm: () => void;
 }
 
 export default function PostDashboard({
@@ -17,6 +20,9 @@ export default function PostDashboard({
   selectedPost,
   selectPost,
   cancelSelectPost,
+  editMode,
+  openForm,
+  closeForm,
 }: Props) {
   return (
     <Grid>
@@ -24,10 +30,11 @@ export default function PostDashboard({
         <PostList posts={posts} selectPost={selectPost} />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedPost && (
+        {selectedPost && !editMode && (
           <PostDetails
             post={selectedPost}
             cancelSelectPost={cancelSelectPost}
+            openForm={openForm}
           />
         )}
 
@@ -38,8 +45,7 @@ export default function PostDashboard({
         ))}
 
         */}
-
-        <PostForm />
+        {editMode && <PostForm closeForm={closeForm} post={selectedPost} />}
       </Grid.Column>
     </Grid>
   );
