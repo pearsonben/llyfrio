@@ -8,6 +8,7 @@ import PostDashboard from "../../features/posts/dashboard/PostDashboard";
 
 function App() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
 
   useEffect(() => {
     axios.get<Post[]>("http://localhost:5000/api/posts").then((response) => {
@@ -17,12 +18,25 @@ function App() {
   // otherwise, useEffect is called everytime the state is rendered
   // and you dont want to call an API over and over again
 
+  function handleSelectPost(id: string) {
+    setSelectedPost(posts.find((x) => x.id === id));
+  }
+
+  function handleCancelSelectPost() {
+    setSelectedPost(undefined);
+  }
+
   return (
     <Fragment>
       <NavBar />
 
       <Container style={{ marginTop: "7em" }}>
-        <PostDashboard posts={posts} />
+        <PostDashboard
+          posts={posts}
+          selectedPost={selectedPost}
+          selectPost={handleSelectPost}
+          cancelSelectPost={handleCancelSelectPost}
+        />
       </Container>
     </Fragment>
   );

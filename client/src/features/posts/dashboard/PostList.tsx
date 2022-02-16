@@ -4,9 +4,10 @@ import { Post } from "../../../app/models/post";
 
 interface Props {
   posts: Post[];
+  selectPost: (id: string) => void;
 }
 
-export default function PostList({ posts }: Props) {
+export default function PostList({ posts, selectPost }: Props) {
   return (
     <Segment>
       <Item.Group divided>
@@ -19,7 +20,12 @@ export default function PostList({ posts }: Props) {
                 <div>{post.rating}</div>
               </Item.Description>
               <Item.Extra>
-                <Button floated="right" content="view" color="blue" />
+                <Button
+                  onClick={() => selectPost(post.id)}
+                  floated="right"
+                  content="view"
+                  color="blue"
+                />
                 <Label basic content={post.rating}></Label>
               </Item.Extra>
             </Item.Content>
